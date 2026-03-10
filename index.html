@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GamerHub Pro</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+background:#05070d;
+color:white;
+text-align:center;
+}
+
+header{
+background:#020617;
+padding:25px;
+font-size:28px;
+color:#00f2ff;
+box-shadow:0 0 20px #00f2ff55;
+}
+
+nav{
+margin:20px;
+}
+
+nav button{
+padding:10px 22px;
+margin:6px;
+border:none;
+border-radius:8px;
+background:#00f2ff;
+font-weight:bold;
+cursor:pointer;
+transition:0.3s;
+}
+
+nav button:hover{
+transform:scale(1.1);
+box-shadow:0 0 12px #00f2ff;
+}
+
+.section{
+display:none;
+padding:30px;
+}
+
+.active{
+display:block;
+}
+
+input,select{
+padding:10px;
+margin:8px;
+border-radius:6px;
+border:none;
+}
+
+table{
+margin:auto;
+border-collapse:collapse;
+width:80%;
+max-width:700px;
+}
+
+th,td{
+border:1px solid #333;
+padding:10px;
+}
+
+th{
+background:#020617;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>🔥 GamerHub PRO</header>
+
+<nav>
+<button onclick="show('convert')">Конвертер</button>
+<button onclick="show('edpi')">eDPI</button>
+<button onclick="show('cm360')">cm/360</button>
+<button onclick="show('players')">Игроки</button>
+</nav>
+
+
+<div id="convert" class="section active">
+
+<h2>Конвертер сенсы</h2>
+
+<input id="valSens" placeholder="Valorant Sens">
+
+<br>
+
+<button onclick="convertSens()">Конвертировать</button>
+
+<p id="convertResult"></p>
+
+</div>
+
+
+<div id="edpi" class="section">
+
+<h2>eDPI калькулятор</h2>
+
+<input id="dpi" placeholder="DPI">
+<input id="sens" placeholder="Sensitivity">
+
+<br>
+
+<button onclick="calcEDPI()">Посчитать</button>
+
+<p id="edpiResult"></p>
+
+</div>
+
+
+<div id="cm360" class="section">
+
+<h2>cm/360 калькулятор</h2>
+
+<input id="dpi2" placeholder="DPI">
+<input id="sens2" placeholder="Sensitivity">
+
+<br>
+
+<button onclick="calcCM()">Посчитать</button>
+
+<p id="cmResult"></p>
+
+</div>
+
+
+<div id="players" class="section">
+
+<h2>Настройки игроков</h2>
+
+<input id="name" placeholder="Ник">
+<input id="pdpi" placeholder="DPI">
+<input id="psens" placeholder="Sens">
+
+<br>
+
+<button onclick="addPlayer()">Добавить</button>
+
+<br><br>
+
+<table>
+<thead>
+<tr>
+<th>Игрок</th>
+<th>DPI</th>
+<th>Sens</th>
+</tr>
+</thead>
+<tbody id="playersTable"></tbody>
+</table>
+
+</div>
+
+
+<script>
+
+function show(id){
+document.querySelectorAll(".section").forEach(s=>{
+s.classList.remove("active")
+})
+document.getElementById(id).classList.add("active")
+}
+
+
+function convertSens(){
+
+let v=document.getElementById("valSens").value
+
+let cs=(v*3.18).toFixed(2)
+let apex=(v*3.18).toFixed(2)
+
+document.getElementById("convertResult").innerText=
+"CS2: "+cs+" | Apex: "+apex
+
+}
+
+
+function calcEDPI(){
+
+let dpi=document.getElementById("dpi").value
+let sens=document.getElementById("sens").value
+
+let edpi=dpi*sens
+
+document.getElementById("edpiResult").innerText="eDPI: "+edpi
+
+}
+
+
+function calcCM(){
+
+let dpi=document.getElementById("dpi2").value
+let sens=document.getElementById("sens2").value
+
+let cm=(2.54*360)/(dpi*sens)
+
+document.getElementById("cmResult").innerText=
+"cm/360: "+cm.toFixed(2)
+
+}
+
+
+function addPlayer(){
+
+let name=document.getElementById("name").value
+let dpi=document.getElementById("pdpi").value
+let sens=document.getElementById("psens").value
+
+let players=JSON.parse(localStorage.getItem("players")||"[]")
+
+players.push({name,dpi,sens})
+
+localStorage.setItem("players",JSON.stringify(players))
+
+renderPlayers()
+
+}
+
+
+function renderPlayers(){
+
+let players=JSON.parse(localStorage.getItem("players")||"[]")
+
+let table=document.getElementById("playersTable")
+
+table.innerHTML=""
+
+players.forEach(p=>{
+
+let row=document.createElement("tr")
+
+row.innerHTML="<td>"+p.name+"</td><td>"+p.dpi+"</td><td>"+p.sens+"</td>"
+
+table.appendChild(row)
+
+})
+
+}
+
+renderPlayers()
+
+</script>
+
+</body>
+</html>
