@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Pro Gamer Hub</title>
+
+<style>
+
+body{
+background:#05070d;
+color:white;
+font-family:Arial;
+margin:0;
+text-align:center;
+}
+
+header{
+background:#020617;
+padding:25px;
+font-size:30px;
+color:#00f2ff;
+box-shadow:0 0 20px #00f2ff55;
+}
+
+nav button{
+margin:10px;
+padding:12px 25px;
+border:none;
+border-radius:8px;
+background:#00f2ff;
+cursor:pointer;
+font-weight:bold;
+}
+
+.section{
+display:none;
+padding:40px;
+}
+
+.active{
+display:block;
+}
+
+input{
+padding:10px;
+margin:10px;
+border-radius:6px;
+border:none;
+}
+
+.card{
+background:#020617;
+margin:15px auto;
+padding:15px;
+border-radius:10px;
+width:260px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>🔥 PRO GAMER HUB</header>
+
+<nav>
+
+<button onclick="show('convert')">Конвертер</button>
+<button onclick="show('edpi')">eDPI</button>
+<button onclick="show('cm')">cm/360</button>
+<button onclick="show('players')">Игроки</button>
+
+</nav>
+
+<div id="convert" class="section active">
+
+<h2>Valorant → CS2</h2>
+
+<input id="val" placeholder="Valorant Sens">
+
+<br>
+
+<button onclick="convert()">Конвертировать</button>
+
+<h3 id="convertResult"></h3>
+
+</div>
+
+
+<div id="edpi" class="section">
+
+<h2>eDPI калькулятор</h2>
+
+<input id="dpi" placeholder="DPI">
+<input id="sens" placeholder="Sensitivity">
+
+<br>
+
+<button onclick="calcEDPI()">Посчитать</button>
+
+<h3 id="edpiResult"></h3>
+
+</div>
+
+
+<div id="cm" class="section">
+
+<h2>cm/360 калькулятор</h2>
+
+<input id="dpi2" placeholder="DPI">
+<input id="sens2" placeholder="Sensitivity">
+
+<br>
+
+<button onclick="calcCM()">Посчитать</button>
+
+<h3 id="cmResult"></h3>
+
+</div>
+
+
+<div id="players" class="section">
+
+<h2>Настройки игроков</h2>
+
+<input id="name" placeholder="Ник">
+<input id="pdpi" placeholder="DPI">
+<input id="psens" placeholder="Sens">
+
+<br>
+
+<button onclick="addPlayer()">Добавить</button>
+
+<div id="playersList"></div>
+
+</div>
+
+
+<script>
+
+function show(id){
+
+document.querySelectorAll(".section").forEach(s=>{
+s.classList.remove("active")
+})
+
+document.getElementById(id).classList.add("active")
+
+}
+
+function convert(){
+
+let v=document.getElementById("val").value
+
+let cs=(v*3.18).toFixed(2)
+
+document.getElementById("convertResult").innerText="CS2 Sens: "+cs
+
+}
+
+function calcEDPI(){
+
+let dpi=document.getElementById("dpi").value
+let sens=document.getElementById("sens").value
+
+let edpi=dpi*sens
+
+document.getElementById("edpiResult").innerText="eDPI: "+edpi
+
+}
+
+function calcCM(){
+
+let dpi=document.getElementById("dpi2").value
+let sens=document.getElementById("sens2").value
+
+let cm=(2.54*360)/(dpi*sens)
+
+document.getElementById("cmResult").innerText="cm/360: "+cm.toFixed(2)
+
+}
+
+function addPlayer(){
+
+let name=document.getElementById("name").value
+let dpi=document.getElementById("pdpi").value
+let sens=document.getElementById("psens").value
+
+let card=document.createElement("div")
+
+card.className="card"
+
+card.innerHTML="<b>"+name+"</b><br>DPI: "+dpi+"<br>Sens: "+sens
+
+document.getElementById("playersList").appendChild(card)
+
+}
+
+</script>
+
+</body>
+</html>
